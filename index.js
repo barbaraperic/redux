@@ -30,16 +30,23 @@ const removeGoal = {
   id: 0,
 }
 
-function addTodo(state=[], action) {
+function todo(state=[], action) {
   if (action.type === 'ADD_TODO') {
     return state.concat([action.todo])
+  } else if (action.type === 'REMOVE_TODO') {
+    return state.filter((todo) => todo.id !== action.id)
+  } else if (action.type === 'TOGGLE_TODO') {
+    return state.filter(todo => todo.id !== action.id ? todo : {
+      name: action.name,
+      completed: !action.completed,
+    })
+  } else {
+    return state
   }
-
-  return state
 }
 
 
-function createStore() {
+function createStore(reducer) {
   // the store
   // 1. state
   // 2. get state
@@ -58,7 +65,7 @@ function createStore() {
   }
 
   const dispatch = (state, action) => {
-    state = addTodo(state, action)
+    state = reducer(state, action)
     listeners = listeners.forEach((listener) => listener())
   }
 
@@ -69,7 +76,7 @@ function createStore() {
   }
 }
 
-const store = createStore();
+const store = createStore(todo);
 
 store.dispatch({
   type: 'ADD_TODO',
