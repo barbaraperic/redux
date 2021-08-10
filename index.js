@@ -57,10 +57,25 @@ function createStore() {
     }
   }
 
+  const dispatch = (state, action) => {
+    state = addTodo(state, action)
+    listeners = listeners.forEach((listener) => listener())
+  }
+
   return {
     getState,
-    subscribe
+    subscribe,
+    dispatch
   }
 }
 
-// createStore => {}
+const store = createStore();
+
+store.dispatch({
+  type: 'ADD_TODO',
+  todo: {
+    id: 0,
+    name: 'Learn Redux',
+    completed: false
+  }
+})
