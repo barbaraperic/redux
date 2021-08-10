@@ -37,8 +37,9 @@ function todo(state=[], action) {
     return state.filter((todo) => todo.id !== action.id)
   } else if (action.type === 'TOGGLE_TODO') {
     return state.filter(todo => todo.id !== action.id ? todo : {
-      name: action.name,
-      completed: !action.completed,
+      name: todo.name,
+      id: todo.id,
+      completed: !todo.completed,
     })
   } else {
     return state
