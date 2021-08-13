@@ -31,17 +31,17 @@ const removeGoal = {
 }
 
 function todo(state=[], action) {
-  if (action.type === 'ADD_TODO') {
-    return state.concat([action.todo])
-  } else if (action.type === 'REMOVE_TODO') {
-    return state.filter((todo) => todo.id !== action.id)
-  } else if (action.type === 'TOGGLE_TODO') {
-    return state.filter(todo => todo.id !== action.id ? todo : {
-      ...todo,
-      completed: !todo.completed,
-    })
-  } else {
-    return state
+  switch(action.type) {
+    case 'ADD_TODO':
+      return state.concat([action.todo])
+    case 'REMOVE_TODO':
+      return state.filter((todo) => todo.id !== action.id)
+    case 'TOGGLE_TODO':
+      return state.filter(todo => todo.id !== action.id ? todo : {
+        ...todo,
+        completed: !todo.completed
+      })
+    default: return state
   }
 }
 
@@ -51,7 +51,8 @@ function goals(state=[], action) {
       return state.concat([action.goal])
     case 'REMOVE_GOAL':
       return state.filter((todo) => todo.id !== action.id)
-  }
+    default: return state
+  } 
 }
 
 
